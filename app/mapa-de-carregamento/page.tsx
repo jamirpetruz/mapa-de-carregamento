@@ -35,7 +35,11 @@ export default function MapaDeCarregamento() {
   const [mode, setMode] = useState<'create' | 'update'>('create');
   const { items, loadItems } = useItems();
 
-  const {data: session} = useSession()
+  function generateId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 9);
+  }
+
+  const { data: session } = useSession()
 
   const handlePedidoModal = () => { setModalPedidoVisible(!isModalPedidoVisible) }
   const handleNotaModal = () => { setModalNotaVisible(!isModalNotaVisible) }
@@ -127,7 +131,7 @@ export default function MapaDeCarregamento() {
       alert('Informe o código do mapa de carregamento')
       return
     }
-    if(!mapaCab.U_Data) {
+    if (!mapaCab.U_Data) {
       alert('Informe a data do mapa de carregamento')
       return
     }
@@ -179,7 +183,7 @@ export default function MapaDeCarregamento() {
         ...line,
         U_Fabric: line.U_Fabric ? new Date(line.U_Fabric).toLocaleDateString('pt-BR') : '',
         U_Validade: line.U_Validade ? new Date(line.U_Validade).toLocaleDateString('pt-BR') : '',
-        id: crypto.randomUUID()
+        id: generateId()
       }));
       setMapaCab(mapaCab);
       setLines(mapaLinesWithId);
@@ -625,7 +629,7 @@ export default function MapaDeCarregamento() {
                       {lines.map((line) => (
 
                         <MapaLine
-                          key={crypto.randomUUID()}
+                          key={generateId()}
                           items={items}
                           numPedido={mapaCab.U_NPedido}
                           line={line}
