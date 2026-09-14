@@ -15,11 +15,13 @@ interface LinhaFormProps {
     addLine: (line: IMapaLinePayload) => void
     handleModal: Function
 }
-
+function generateId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 9);
+}
 export function LinhaForm(props: LinhaFormProps) {
     const [lotes, setLotes] = useState<string[]>([])
     const [line, setLine] = useState<IMapaLinePayload>({
-        id: crypto.randomUUID(),
+        id: generateId(),
         Code: '',
         U_CodItem: "",
         U_Lote: "",

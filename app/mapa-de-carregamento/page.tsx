@@ -23,7 +23,7 @@ import { IMapaLinePayload } from "@/types/MapaLinePayload";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FaFileInvoice, FaFileInvoiceDollar, FaPlus, FaRegSave, FaSearch, FaTruck } from "react-icons/fa";
-import { IoDocumentTextOutline } from "react-icons/io5";
+import { IoDocumentTextOutline, IoSearchOutline } from "react-icons/io5";
 import { LuSheet } from "react-icons/lu";
 
 export default function MapaDeCarregamento() {
@@ -176,6 +176,7 @@ export default function MapaDeCarregamento() {
         await findMapaDeCarregamentoByCodeAction(code);
       if (!mapaCab) {
         alert('Mapa de carregamento não encontrado')
+        location.href = '/mapa-de-carregamento'
         return
       }
       const mapaLines = await findMapaLinesAction(code);
@@ -238,11 +239,12 @@ export default function MapaDeCarregamento() {
 
                   <div className="grid grid-cols-2 gap-x-3 gap-y-2">
 
-                    <div>
+                    <div className="">
                       <label className={labelClass}>
                         Code
                       </label>
-
+                    <div className="flex items-center">
+                      
                       <input
                         type="text"
                         value={mapaCab.Code ?? ''}
@@ -254,6 +256,19 @@ export default function MapaDeCarregamento() {
                           )
                         }
                       />
+                      <button 
+                        title="Buscar Mapa existente" 
+                        className='bg-blue-600 px-2 py-1 ml-1 text-white rounded cursor-pointer' 
+                        onClick={()=>{
+                          if(!mapaCab.Code){
+                            alert('Digite o código do mapa para fazer a busca')
+                            return
+                          }
+                          location.href = `/mapa-de-carregamento?code=${mapaCab.Code}`
+                        }}>
+                        <IoSearchOutline />
+                      </button>
+                    </div>
                     </div>
 
                     <div>
