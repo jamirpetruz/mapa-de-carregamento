@@ -2,7 +2,7 @@ import {JSONFilePreset} from 'lowdb/node'
 
 const defaultData: {mapas: any[]} = {mapas: []}
 
-const serverPath = '/var/backups/mapa-backup.json'
+const serverPath = '/var/backups/mapa-carregamento/mapa-backup.json'
 const windowsPath = 'mapa-backup.json'
 const db = await JSONFilePreset(serverPath, defaultData)
 
