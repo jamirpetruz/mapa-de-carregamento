@@ -8,6 +8,7 @@ import { IMapaLinePayload } from "@/types/MapaLinePayload";
 import { registerLog } from "./Log";
 import { ILog } from "@/types/Log";
 import { requireAuth } from "@/lib/auth";
+import { saveMapaLowDB } from "@/lib/lowdb";
 
 const HANA_DATABASE = process.env.HANA_DATABASE
 
@@ -219,7 +220,7 @@ export async function saveMapaHana(cab: IMapaCab, lines: IMapaLinePayload[], usu
             U_NPalet: item.U_NPalet
         })
     })
-
+    await saveMapaLowDB(payload)
     try {
         console.log("========== ENVIO SAP ==========")
         console.log("URL:", `${process.env.SAP_URL}/b1s/v1/MAP_CAR`)
