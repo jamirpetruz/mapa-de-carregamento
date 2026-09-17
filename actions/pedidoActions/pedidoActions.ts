@@ -1,7 +1,7 @@
 'use server'
 
 import { requireAuth } from "@/lib/auth";
-import { findAllPedidos, findPedidoByNum, findPedidoLines } from "@/services/PedidoVenda";
+import { findAllPedidos, findPedidoByNum, findPedidoCurrency, findPedidoLines } from "@/services/PedidoVenda";
 import { IPedidoLine } from "@/types/PedidoLine";
 import { IPedidoVendaPick } from "@/types/PedidoPick";
 import { IPedidoVenda } from "@/types/PedidoVendaCab";
@@ -21,5 +21,11 @@ export async function findPedidoLinesAction(docNum: number): Promise<IPedidoLine
 export async function findAllPedidosAction(docNum: number): Promise<IPedidoVendaPick[]>{
     const session = await requireAuth()
     const result = await findAllPedidos(docNum)
+    return result
+}
+
+export async function findPedidoCurrencyAction(numPedido: number): Promise<string>{
+    const session = await requireAuth()
+    const result = await findPedidoCurrency(numPedido)
     return result
 }

@@ -107,3 +107,38 @@ export async function findAllPedidos(docNum: number): Promise<IPedidoVendaPick[]
 
     return pedidos.value
 }
+
+export async function findPedidoCurrency(numPedido: number): Promise<string> {
+    //Orders?$filter=DocNum eq 15
+    const sapSession = await getSapSession()
+
+    const url = `${process.env.SAP_URL}/b1s/v1/Orders?$filter=DocNum eq ${numPedido}`
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Cookie': `B1SESSION=${sapSession}`
+        }
+    })
+
+    const responseText = await response.text()
+
+    if (!response.ok) {
+        console.error("========== ERRO AO BUSCAR PEDIDOS ==========")
+        console.error("Status:", response.status)
+        console.error("Resposta:", responseText)
+
+        throw new Error(
+            `SAP Service Layer retornou ${response.status} ao buscar pedidos: ${responseText}`
+        )
+    }
+
+    const pedidos = JSON.parse(responseText) as any
+
+    if (!pedidos.value) {
+        console.error("Resposta do SAP sem 'value':", pedidos)
+        throw new Error("Resposta inesperada do SAP: campo 'value' ausente.")
+    }
+
+    return pedidos.value[0].DocCurrency as string
+}

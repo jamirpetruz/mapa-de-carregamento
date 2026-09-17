@@ -1,5 +1,5 @@
 export interface IRomaneio {
-    Code: number;
+    Code: string;
     U_Data: string;
     U_NPedido: number;
 

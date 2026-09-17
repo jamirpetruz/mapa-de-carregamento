@@ -1,12 +1,13 @@
 'use client'
 
+import { findPedidoCurrencyAction } from "@/actions/pedidoActions/pedidoActions";
 import { findRomaneioByDatesAction } from "@/actions/romaneioActions/romaneioActions";
 import { loadExcel } from "@/actions/xlsxActions/xlsxActions";
 import { SideBar } from "@/components/sideBar/SideBar";
 import { SideBarLayout } from "@/components/topbar/TopBar";
 import { IRomaneio } from "@/types/Romaneio";
 import { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaFilePdf, FaSearch } from "react-icons/fa";
 import { LuSheet } from "react-icons/lu";
 
 export default function ConsultaRomaneio() {
@@ -40,7 +41,7 @@ export default function ConsultaRomaneio() {
                 dataInicial,
                 dataFinal
             );
-
+            console.log(result)
             setRomaneios(result);
 
         } catch (error) {
@@ -70,6 +71,10 @@ export default function ConsultaRomaneio() {
             Quant_Geral: Number(line.Quant_Geral).toLocaleString('pt-br', { maximumFractionDigits: 4, minimumFractionDigits: 2 })
         }));
         loadExcel(dadosExcel, 'Romaneios')
+    }
+
+    const downloadRomaneio = async (romaneio: IRomaneio)=>{
+        location.href = '/relatorios/romaneio?code=' + romaneio.Code
     }
 
     useEffect(() => {
@@ -189,6 +194,7 @@ export default function ConsultaRomaneio() {
                                     <table className="w-full text-xs whitespace-nowrap">
                                         <thead className="bg-gray-100 border-b sticky top-0 z-10">
                                             <tr>
+                                                <th className="px-3 py-2 text-left font-semibold"></th>
                                                 <th className="px-3 py-2 text-left font-semibold">Code</th>
                                                 <th className="px-3 py-2 text-left font-semibold">Data</th>
                                                 <th className="px-3 py-2 text-left font-semibold">Nº Pedido</th>
@@ -233,6 +239,11 @@ export default function ConsultaRomaneio() {
 
                                             {!loading && romaneios.map((romaneio) => (
                                                 <tr key={romaneio.Code} className="hover:bg-gray-50">
+                                                    <td className="text-red-600 px-3 py-1.5 cursor-pointer" onClick={()=>{
+                                                        downloadRomaneio(romaneio)
+                                                    }}>
+                                                        <FaFilePdf size={18}/>
+                                                    </td>
                                                     <td className="px-3 py-1.5"><a className="text-blue-500" href={`/mapa-de-carregamento?code=${romaneio.Code}`}>{romaneio.Code}</a></td>
                                                     <td className="px-3 py-1.5 whitespace-nowrap">
                                                         {new Date(romaneio.U_Data).toLocaleDateString()}

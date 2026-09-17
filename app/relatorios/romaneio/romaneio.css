@@ -1,0 +1,234 @@
+/* Reset básico para impressão/relatório */
+.relatorio {
+    font-family: 'Arial', sans-serif;
+    color: #333333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+/* Cabeçalho */
+.header {
+    border-bottom: 2px solid #1a365d;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.titulo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a365d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.subtitulo {
+    font-size: 12px;
+    color: #666666;
+    margin-top: 4px;
+}
+
+.codigo {
+    text-align: right;
+    font-size: 11px;
+    color: #666666;
+}
+
+.codigo-valor {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1a365d;
+}
+
+/* Seções Principais */
+.section {
+    margin-bottom: 18px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #1a365d;
+    text-transform: uppercase;
+    background-color: #f1f5f9;
+    padding: 6px 10px;
+    border-left: 4px solid #1a365d;
+    margin-bottom: 8px;
+}
+
+/* Tabelas de Informação Geral */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table td {
+    padding: 6px 4px;
+    vertical-align: top;
+}
+
+.info {
+    display: table-cell;
+}
+
+.label {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.value {
+    display: block;
+    font-size: 12px;
+    color: #0f172a;
+    word-break: break-word;
+}
+
+/* Bloco de Endereço */
+.address {
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    background-color: #fafafa;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+}
+
+.address strong {
+    color: #1a365d;
+    font-size: 13px;
+}
+
+/* Tabela de Totais */
+.totais-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.total-box {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 8px;
+    text-align: center;
+    width: 20%;
+}
+
+.total-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.total-value {
+    font-size: 13px;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+/* Tabela de Valor Total */
+.valor-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.valor {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.valor .label {
+    font-size: 12px;
+    color: #1e40af;
+    margin-bottom: 0;
+}
+
+.valor .value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+/* Bloco de Assinaturas */
+.assinaturas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.assinatura {
+    width: 30%;
+    border-top: 1px solid #000000;
+    text-align: center;
+    padding-top: 6px;
+    font-size: 11px;
+    color: #333333;
+    font-weight: bold;
+}
+
+/* Rodapé */
+.footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    color: #94a3b8;
+}
+
+.footer-table .center {
+    text-align: center;
+}
+
+.footer-table .right {
+    text-align: right;
+}
+
+/* Configuração de Impressão */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+    }
+    
+    .relatorio {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .section-title {
+        background-color: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .valor {
+        background-color: #eff6ff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
