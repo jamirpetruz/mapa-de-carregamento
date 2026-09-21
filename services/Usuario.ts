@@ -66,12 +66,12 @@ export async function createUsuario(user: IUsuario){
                 role,
                 status
         `
-        
+        console.log(user)
         const result = await conn.query(sql, [
             user.nome,
             user.email,
             passwordHash,
-            user.role,
+            user.role || 'user',
             user.status
         ])
         return result.rows[0] as IUsuario

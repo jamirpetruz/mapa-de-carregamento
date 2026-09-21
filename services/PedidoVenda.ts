@@ -109,10 +109,9 @@ export async function findAllPedidos(docNum: number): Promise<IPedidoVendaPick[]
 }
 
 export async function findPedidoCurrency(numPedido: number): Promise<string> {
-    //Orders?$filter=DocNum eq 15
     const sapSession = await getSapSession()
 
-    const url = `${process.env.SAP_URL}/b1s/v1/Orders?$filter=DocNum eq ${numPedido}`
+    const url = `${process.env.SAP_URL}/b1s/v1/Orders?$filter=DocNum eq ${numPedido}&$select=DocCurrency`
 
     const response = await fetch(url, {
         method: 'GET',
