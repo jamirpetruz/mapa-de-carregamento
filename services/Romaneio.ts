@@ -1,4 +1,4 @@
-import { getHanaConnection, pgPool } from "@/lib/db"
+import { getHanaConnection } from "@/lib/db"
 import { IMapaCarregamento } from "@/types/MapaDeCarregamento";
 import { IRomaneio } from "@/types/Romaneio"
 
