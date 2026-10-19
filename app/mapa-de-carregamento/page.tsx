@@ -22,6 +22,7 @@ import { IMapaLine } from "@/types/MapaLine";
 import { IMapaLinePayload } from "@/types/MapaLinePayload";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaFileInvoice, FaFileInvoiceDollar, FaPlus, FaRegSave, FaSearch, FaTruck } from "react-icons/fa";
 import { IoDocumentTextOutline, IoSearchOutline } from "react-icons/io5";
 import { LuSheet } from "react-icons/lu";
@@ -33,6 +34,7 @@ export default function MapaDeCarregamento() {
   const [isModalNotaVisible, setModalNotaVisible] = useState<boolean>(false)
   const [isModalPickPedidoVisible, setModalPickPedidoVisible] = useState<boolean>(false)
   const [mode, setMode] = useState<'create' | 'update'>('create');
+  const [loading, setLoading] = useState<boolean>(false)
   const { items, loadItems } = useItems();
 
   function generateId(): string {
@@ -143,6 +145,7 @@ export default function MapaDeCarregamento() {
       alert('Não há linhas no mapa para salvar')
       return
     }
+    setLoading(true)
     if (mode === 'create') {
       const result = await saveMapa(mapaCab, lines, session?.user.id ?? '');
       alert(result?.msg)
@@ -160,7 +163,7 @@ export default function MapaDeCarregamento() {
         lines
       );
     }
-
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -172,11 +175,13 @@ export default function MapaDeCarregamento() {
 
       if (!code) return;
       setMode('update');
+      setLoading(true)
       const mapaCab =
         await findMapaDeCarregamentoByCodeAction(code);
       if (!mapaCab) {
         alert('Mapa de carregamento não encontrado')
         location.href = '/mapa-de-carregamento'
+        setLoading(false)
         return
       }
       const mapaLines = await findMapaLinesAction(code);
@@ -189,6 +194,7 @@ export default function MapaDeCarregamento() {
       setMapaCab(mapaCab);
       setLines(mapaLinesWithId);
       await loadItems(mapaCab.U_NPedido)
+      setLoading(false)
     };
 
     loadMapa();
@@ -213,8 +219,10 @@ export default function MapaDeCarregamento() {
 
   return (
     <SideBarLayout>
+      <div className="fixed top-2 left-[50%]">
+        {loading ? <img src="loading-gif.gif" alt="" height={30} width={30}/> : null}
+      </div>
       <div className="flex flex-col bg-gray-50/50 overflow-hidden text-gray-800">
-
         <div className="flex flex-1">
 
           <main className="flex-1 overflow-y-auto">

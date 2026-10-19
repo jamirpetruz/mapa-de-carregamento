@@ -12,7 +12,7 @@ export function SideBarLayout({ children }: { children: React.ReactNode }) {
     const { data: session } = useSession()
 
     const [perfilAberto, setPerfilAberto] = useState(false)
-    const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
 
     const perfilRef = useRef<HTMLDivElement>(null)
 

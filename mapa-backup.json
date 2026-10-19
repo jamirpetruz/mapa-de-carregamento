@@ -241,6 +241,47 @@
           "U_NPalet": 1
         }
       ]
+    },
+    {
+      "Code": "0001",
+      "U_Veiculo": "dsa",
+      "U_NPedido": 15,
+      "U_Placa": "dasd",
+      "U_Lacre": "adas",
+      "U_Motorista": "asdad",
+      "U_DataLog": "adad",
+      "U_Transport": "ad",
+      "U_Cubagem": "dadas",
+      "U_OBS": "asdads",
+      "U_Data": "2026-10-21",
+      "MAP_CAR_LINCollection": [
+        {
+          "Code": "",
+          "U_CodItem": "13397",
+          "U_Lote": "015436-2",
+          "U_Invoice": "APY 1026",
+          "U_CodClient": "C00228",
+          "U_CardName": "AMAZONIA SPECIALITIES PTY LTD",
+          "U_DescItem": "ACAI AMAZONIA PTY AUS PUR26 SR OPCA 3KG CX3 EX",
+          "U_Unidade": "CX",
+          "U_Quant": 500,
+          "U_Preco": 27.63,
+          "U_Total": 13815,
+          "U_Fabric": "2026-02-26",
+          "U_Validade": "2028-02-26",
+          "U_Cidade": "Exterior",
+          "U_Pais": "Austrália",
+          "U_Bairro": "Exterior",
+          "U_Cep": "99999999",
+          "U_Rua": "Gold Coast",
+          "U_Deposito": "01.06",
+          "U_PPalet": 22,
+          "U_PRef": "9.000000",
+          "U_PLiq": 4500,
+          "U_PBru": 4522,
+          "U_NPalet": 1
+        }
+      ]
     }
   ]
 }
