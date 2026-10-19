@@ -1,8 +1,8 @@
 export interface ILog {
-    id?: number;
+    logId?: number;
     acao: string;
-    usuario_id: string;
+    usuarioId: string;
     entidade: string;
-    entidade_id: string;
-    data_hora?: string;
+    entidadeId: string;
+    dataHora?: string;
 }

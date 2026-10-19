@@ -90,7 +90,7 @@ export default function ConsultaRomaneio() {
 
                                 {/* FILTROS */}
                                 <div className="p-3">
-                                    <div className="flex items-end gap-3">
+                                    <div className="flex items-end gap-1">
 
                                         {/* DATA INICIAL */}
                                         <div className="flex flex-col gap-1">
@@ -123,10 +123,9 @@ export default function ConsultaRomaneio() {
                                             type="button"
                                             onClick={buscarLogs}
                                             disabled={loading}
-                                            className='mr-1 inline-flex items-center justify-center gap-2 px-4 py-1.5 bg-slate-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md shadow-sm transition'
+                                            className='bg-blue-600 px-2 py-1.5 text-white rounded cursor-pointer'
                                         >
                                             <FaSearch size={13} />
-                                            {loading ? "Buscando..." : "Pesquisar"}
                                         </button>
                                     </div>
 
@@ -192,13 +191,13 @@ export default function ConsultaRomaneio() {
                                                 )}
 
                                                 {!loading && logs.map((log) => (
-                                                    <tr key={log.id} className="hover:bg-gray-50">
-                                                        <td className="px-3 py-1.5"><a className="text-blue-500" href={`/mapa-de-carregamento?code=${log.entidade_id}`}>{log.entidade_id}</a></td>
+                                                    <tr key={log.logId} className="hover:bg-gray-50">
+                                                        <td className="px-3 py-1.5"><a className="text-blue-500" href={`/mapa-de-carregamento?code=${log.entidadeId}`}>{log.entidadeId}</a></td>
                                                         <td className="px-3 py-1.5">{log.acao}</td>
-                                                        <td className="px-3 py-1.5">{log.usuario_id}</td>
+                                                        <td className="px-3 py-1.5">{log.usuarioId}</td>
                                                         <td className="px-3 py-1.5">{log.entidade}</td>
                                                         <td className="px-3 py-1.5 whitespace-nowrap">
-                                                            {new Date(log.data_hora!!).toLocaleDateString()}
+                                                            {new Date(log.dataHora!!).toLocaleDateString()}
                                                         </td>
                                                     </tr>
                                                 ))}

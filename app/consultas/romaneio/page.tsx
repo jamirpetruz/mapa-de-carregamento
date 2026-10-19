@@ -118,7 +118,7 @@ export default function ConsultaRomaneio() {
 
                             {/* FILTROS */}
                             <div className="p-3">
-                                <div className="flex items-end gap-3">
+                                <div className="flex items-end gap-1">
 
                                     {/* DATA INICIAL */}
                                     <div className="flex flex-col gap-1">
@@ -151,10 +151,9 @@ export default function ConsultaRomaneio() {
                                         type="button"
                                         onClick={buscarRomaneios}
                                         disabled={loading}
-                                        className='mr-1 inline-flex items-center justify-center gap-2 px-4 py-1.5 bg-slate-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md shadow-sm transition'
+                                        className='bg-blue-600 px-2 py-1.5 text-white rounded cursor-pointer'
                                     >
                                         <FaSearch size={13} />
-                                        {loading ? "Buscando..." : "Pesquisar"}
                                     </button>
                                 </div>
 
@@ -194,7 +193,6 @@ export default function ConsultaRomaneio() {
                                     <table className="w-full text-xs whitespace-nowrap">
                                         <thead className="bg-gray-100 border-b sticky top-0 z-10">
                                             <tr>
-                                                <th className="px-3 py-2 text-left font-semibold"></th>
                                                 <th className="px-3 py-2 text-left font-semibold">Code</th>
                                                 <th className="px-3 py-2 text-left font-semibold">Data</th>
                                                 <th className="px-3 py-2 text-left font-semibold">Nº Pedido</th>
@@ -239,11 +237,6 @@ export default function ConsultaRomaneio() {
 
                                             {!loading && romaneios.map((romaneio) => (
                                                 <tr key={romaneio.Code} className="hover:bg-gray-50">
-                                                    <td className="text-red-600 px-3 py-1.5 cursor-pointer" onClick={()=>{
-                                                        downloadRomaneio(romaneio)
-                                                    }}>
-                                                        <FaFilePdf size={18}/>
-                                                    </td>
                                                     <td className="px-3 py-1.5"><a className="text-blue-500" href={`/mapa-de-carregamento?code=${romaneio.Code}`}>{romaneio.Code}</a></td>
                                                     <td className="px-3 py-1.5 whitespace-nowrap">
                                                         {new Date(romaneio.U_Data).toLocaleDateString()}

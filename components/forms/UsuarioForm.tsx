@@ -29,12 +29,13 @@ export default function UsuarioForm({
     const [mostrarSenha, setMostrarSenha] = useState(false)
 
     const [form, setForm] = useState<IUsuario>({
-        id: selectedUsuario?.id ?? null,
-        nome: selectedUsuario?.nome ?? '',
+        userId: selectedUsuario?.userId ?? null,
+        username: selectedUsuario?.username ?? '',
+        name: selectedUsuario?.name ?? '',
         email: selectedUsuario?.email ?? '',
         password: '',
         role: selectedUsuario?.role ?? '',
-        status: selectedUsuario?.status ?? 1,
+        ativo: selectedUsuario?.ativo ?? false,
     })
 
     function handleChange<K extends keyof IUsuario>(
@@ -98,9 +99,9 @@ export default function UsuarioForm({
 
                         <input
                             type="text"
-                            value={form.nome}
+                            value={form.name}
                             onChange={(event) =>
-                                handleChange("nome", event.target.value)
+                                handleChange("name", event.target.value)
                             }
                             placeholder="Nome completo"
                             className="
@@ -206,7 +207,7 @@ export default function UsuarioForm({
                                 focus:ring-2
                                 focus:ring-blue-100
                             "
-                            required={!selectedUsuario?.id}
+                            required={!selectedUsuario?.userId}
                             minLength={6}
                         />
 
@@ -299,34 +300,21 @@ export default function UsuarioForm({
                     </label>
 
                     <select
-                        value={form.status}
+                        value={form.ativo ? "1" : "0"}
                         onChange={(event) =>
-                            handleChange(
-                                "status",
-                                Number(event.target.value) as 0 | 1
-                            )
+                            handleChange("ativo", event.target.value === "1")
                         }
                         className="
-                            w-full
-                            px-3
-                            py-1.5
-                            border
-                            border-gray-300
-                            rounded-lg
-                            bg-white
+                            w-full px-3 py-1.5
+                            border border-gray-300
+                            rounded-lg bg-white
                             outline-none
                             focus:border-blue-500
-                            focus:ring-2
-                            focus:ring-blue-100
+                            focus:ring-2 focus:ring-blue-100
                         "
                     >
-                        <option value={1}>
-                            Ativo
-                        </option>
-
-                        <option value={0}>
-                            Inativo
-                        </option>
+                        <option value="1">Ativo</option>
+                        <option value="0">Inativo</option>
                     </select>
 
                 </div>

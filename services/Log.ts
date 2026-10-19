@@ -1,30 +1,45 @@
-import { pgPool } from "@/lib/db";
+import { getSQLServerPool } from "@/lib/db";
 import { ILog } from "@/types/Log";
+import sql from "mssql";
 
 export async function registerLog(log: ILog): Promise<void> {
-    const db = await pgPool.connect();
+    const db = await getSQLServerPool();
 
-    try {
-        const query = `
-            INSERT INTO logs (acao, usuario_id, entidade, entidade_id)
-            VALUES ($1, $2, $3, $4)
-        `;
-        await db.query(query, [log.acao, log.usuario_id, log.entidade, log.entidade_id]);
-    } finally {
-        db.release();
-    }
+    const request = db.request();
+
+    request.input("acao", sql.NVarChar, log.acao);
+    request.input("usuarioId", sql.Int, log.usuarioId);
+    request.input("entidade", sql.NVarChar, log.entidade);
+    request.input("entidadeId", sql.VarChar, log.entidadeId);
+
+    const query = `
+        INSERT INTO dbo.Logs (acao, usuarioId, entidade, entidadeId)
+        VALUES (@acao, @usuarioId, @entidade, @entidadeId)
+    `;
+
+    await request.query(query);
 }
 
-export async function findLogsBetweenDates(dataInicial: string, dataFinal: string): Promise<ILog[]> {
-    const db = await pgPool.connect();
+export async function findLogsBetweenDates(
+    dataInicial: string,
+    dataFinal: string
+): Promise<ILog[]> {
+    const db = await getSQLServerPool();
 
-    try {
-        const query = `
-            SELECT * FROM logs WHERE data_hora BETWEEN $1 AND $2
-        `;
-        const result = await db.query(query, [dataInicial, dataFinal]);
-        return result.rows as ILog[];
-    } finally {
-        db.release();
-    }
+    const request = db.request();
+
+    request.input("dataInicial", sql.DateTime2, dataInicial);
+    request.input("dataFinal", sql.DateTime2, dataFinal);
+
+    const query = `
+        SELECT *
+        FROM dbo.Logs
+        WHERE dataHora >= @dataInicial
+          AND dataHora < @dataFinal
+        ORDER BY dataHora DESC
+    `;
+
+    const result = await request.query(query);
+
+    return result.recordset as ILog[];
 }

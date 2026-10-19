@@ -48,10 +48,10 @@ const handler = NextAuth({
                 }
 
                 return {
-                    id: String(user.id),
+                    id: String(user.userId),
                     email: user.email,
                     role: user.role,
-                    name: user.nome
+                    name: user.name
                 }
             },
         }),

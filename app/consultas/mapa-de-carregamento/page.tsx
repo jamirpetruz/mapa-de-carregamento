@@ -143,7 +143,7 @@ export default function ConsultaMapaDeCarregamento() {
 
                 {/* FILTROS */}
                 <div className="p-3">
-                  <div className="flex items-end gap-3">
+                  <div className="flex items-end gap-1">
 
                     {/* DATA INICIAL */}
                     <div className="flex flex-col gap-1">
@@ -184,10 +184,9 @@ export default function ConsultaMapaDeCarregamento() {
                       type="button"
                       onClick={buscarMapas}
                       disabled={loading}
-                      className="mr-1 inline-flex items-center justify-center gap-2 px-4 py-1.5 bg-slate-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md shadow-sm transition"
+                      className="bg-blue-600 px-2 py-1.5 text-white rounded cursor-pointer"
                     >
                       <FaSearch size={13} />
-                      {loading ? "Consultando..." : "Pesquisar"}
                     </button>
                   </div>
 

@@ -1,127 +1,141 @@
-import { pgPool } from "@/lib/db";
+import { getSQLServerPool } from "@/lib/db";
 import { IUsuario } from "@/types/Usuario";
-import bcrypt from 'bcrypt'
-/**
- * 
- * POSTGRES 
- * 
- */
+import bcrypt from "bcrypt";
+import sql from "mssql";
 
 export async function findAllUsuarios(): Promise<IUsuario[]> {
-    const conn = await pgPool.connect();
+    const pool = await getSQLServerPool();
 
-    try {
-        const query = "SELECT * FROM usuarios";
-        const result = await conn.query(query);
-        return result.rows as IUsuario[];
-    } catch (error) {
-        console.error("Erro ao buscar usuários: ", error);
-        throw error;
-    } 
-    finally {
-        conn.release();
-    }
+    const query = `
+        SELECT
+            userId,
+            username,
+            name,
+            email,
+            password,
+            ativo,
+            role,
+            createdAt
+        FROM dbo.Users
+        ORDER BY name
+    `;
+
+    const result = await pool.request().query(query);
+
+    return result.recordset as IUsuario[];
 }
 
-export async function findUsuarioByEmail(email: string): Promise<IUsuario | null> {
-    const conn = await pgPool.connect();
+export async function findUsuarioByEmail(
+    email: string
+): Promise<IUsuario | null> {
+    const pool = await getSQLServerPool();
 
-    try {
-        const query = "SELECT * FROM usuarios WHERE email = $1";
-        const result = await conn.query(query, [email]);
-        return result.rows[0];
-    } catch (error) {
-        console.error("Erro ao buscar usuário por email:", error);
-        throw error;
-    } 
-    finally {
-        conn.release();
-    }
-}
-
-export async function createUsuario(user: IUsuario){
-    const conn = await pgPool.connect()
-    try {
-        const passwordHash = await bcrypt.hash(user.password, 10)
-        const sql = `
-            INSERT INTO usuarios(
-                nome, 
-                email, 
-                password, 
-                role, 
-                status
-            )
-            VALUES(
-                $1, 
-                $2, 
-                $3, 
-                $4, 
-                $5
-            )
-
-            RETURNING
-                id,
-                nome,
+    const result = await pool
+        .request()
+        .input("email", sql.VarChar(150), email)
+        .query(`
+            SELECT
+                userId,
+                username,
+                name,
                 email,
+                password,
+                ativo,
                 role,
-                status
-        `
-        console.log(user)
-        const result = await conn.query(sql, [
-            user.nome,
-            user.email,
-            passwordHash,
-            user.role || 'user',
-            user.status
-        ])
-        return result.rows[0] as IUsuario
-    } catch (error) {
-        throw error
-    } finally{
-        conn.release()
-    }
+                createdAt
+            FROM dbo.Users
+            WHERE email = @email
+        `);
+
+    return (result.recordset[0] as IUsuario) ?? null;
 }
 
-export async function updateUsuario(user: IUsuario): Promise<boolean> {
-    const conn = await pgPool.connect();
+export async function createUsuario(
+    user: IUsuario
+): Promise<IUsuario> {
+    const pool = await getSQLServerPool();
+
+    const passwordHash = await bcrypt.hash(user.password, 10);
+
+    const result = await pool
+        .request()
+        .input("username", sql.VarChar(100), user.username)
+        .input("name", sql.VarChar(150), user.name)
+        .input("email", sql.VarChar(150), user.email)
+        .input("password", sql.VarChar(255), passwordHash)
+        .input("ativo", sql.Bit, user.ativo ?? true)
+        .input("role", sql.VarChar(20), user.role || "user")
+        .query(`
+            INSERT INTO dbo.Users (
+                username,
+                name,
+                email,
+                password,
+                ativo,
+                role,
+                createdAt
+            )
+            OUTPUT
+                INSERTED.userId,
+                INSERTED.username,
+                INSERTED.name,
+                INSERTED.email,
+                INSERTED.ativo,
+                INSERTED.role,
+                INSERTED.createdAt
+            VALUES (
+                @username,
+                @name,
+                @email,
+                @password,
+                @ativo,
+                @role,
+                SYSDATETIME()
+            )
+        `);
+
+    return result.recordset[0] as IUsuario;
+}
+
+export async function updateUsuario(
+    user: IUsuario
+): Promise<boolean> {
+    const pool = await getSQLServerPool();
 
     try {
-        const fields: string[] = [
-            'nome = $1',
-            'email = $2',
-            'role = $3',
-            'status = $4',
-        ];
+        const request = pool.request();
 
-        const values: any[] = [
-            user.nome,
-            user.email,
-            user.role,
-            user.status,
-        ];
+        request.input("userId", sql.Int, user.userId);
+        request.input("username", sql.VarChar(100), user.username);
+        request.input("name", sql.VarChar(150), user.name);
+        request.input("email", sql.VarChar(150), user.email);
+        request.input("ativo", sql.Bit, user.ativo);
+        request.input("role", sql.VarChar(20), user.role);
+
+        let passwordSql = "";
 
         if (user.password) {
             const passwordHash = await bcrypt.hash(user.password, 10);
 
-            fields.push(`password = $${values.length + 1}`);
-            values.push(passwordHash);
+            request.input("password", sql.VarChar(255), passwordHash);
+            passwordSql = ", password = @password";
         }
 
-        values.push(user.id);
+        await request.query(`
+            UPDATE dbo.Users
+            SET
+                username = @username,
+                name = @name,
+                email = @email,
+                ativo = @ativo,
+                role = @role
+                ${passwordSql}
+            WHERE userId = @userId
+        `);
 
-        const sql = `
-            UPDATE usuarios
-            SET ${fields.join(', ')}
-            WHERE id = $${values.length}
-        `;
-
-        await conn.query(sql, values);
-        return true
+        return true;
     } catch (error) {
-        console.log(`Falha ao atualizar usuário: ${error}`);
-        return false
-        throw error;
-    } finally {
-        conn.release();
+        console.error("Falha ao atualizar usuário:", error);
+        return false;
     }
 }

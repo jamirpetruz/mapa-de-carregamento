@@ -3,11 +3,10 @@
 import { findAllUsuariosAction } from "@/actions/usuarioActions/usuarioActions";
 import UsuarioForm from "@/components/forms/UsuarioForm";
 import Modal from "@/components/modal/Modal";
-import {SideBar} from "@/components/sideBar/SideBar";
 import {SideBarLayout} from "@/components/topbar/TopBar";
 import { IUsuario } from "@/types/Usuario";
 import { useEffect, useState } from "react";
-import { IoAddOutline, IoCreateOutline, IoPersonOutline, IoSearchOutline, IoTrashOutline } from "react-icons/io5";
+import { IoAddOutline, IoCreateOutline, IoPersonOutline, IoTrashOutline } from "react-icons/io5";
 function getRoleLabel(role: string) {
     switch (role) {
         case "admin":
@@ -131,7 +130,7 @@ export default function Usuarios() {
                                             {usuarios.map((usuario) => (
 
                                                 <tr
-                                                    key={usuario.id}
+                                                    key={usuario.userId}
                                                     className="hover:bg-gray-50 transition"
                                                 >
 
@@ -158,7 +157,7 @@ export default function Usuarios() {
                                                             </div>
 
                                                             <span className="font-medium text-gray-800">
-                                                                {usuario.nome}
+                                                                {usuario.name}
                                                             </span>
 
                                                         </div>
@@ -199,7 +198,7 @@ export default function Usuarios() {
                                                 gap-1.5
                                                 text-sm
                                                 font-medium
-                                                ${usuario.status === 1
+                                                ${usuario.ativo
                                                                     ? "text-green-600"
                                                                     : "text-gray-400"
                                                                 }
@@ -207,10 +206,10 @@ export default function Usuarios() {
                                                         >
 
                                                             <span
-                                                                className={`w-2 h-2 rounded-full ${usuario.status === 1 ? "bg-green-500" : "bg-gray-400"}`}
+                                                                className={`w-2 h-2 rounded-full ${usuario.ativo ? "bg-green-500" : "bg-gray-400"}`}
                                                             />
 
-                                                            {usuario.status == 1 ? 'Ativo' : 'Inativo'}
+                                                            {usuario.ativo ? 'Ativo' : 'Inativo'}
 
                                                         </span>
 

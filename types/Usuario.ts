@@ -1,8 +1,9 @@
 export interface IUsuario {
-    id: number | null
-    nome: string
+    userId: number | null
+    username: string
+    name: string
     email: string
     password: string
     role: string
-    status: 0 | 1
+    ativo: boolean
 }

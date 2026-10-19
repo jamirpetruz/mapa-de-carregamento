@@ -243,32 +243,32 @@ export default function MapaDeCarregamento() {
                       <label className={labelClass}>
                         Code
                       </label>
-                    <div className="flex items-center">
-                      
-                      <input
-                        type="text"
-                        value={mapaCab.Code ?? ''}
-                        className={inputClass}
-                        onChange={(e) =>
-                          handleChande(
-                            'Code',
-                            e.target.value
-                          )
-                        }
-                      />
-                      <button 
-                        title="Buscar Mapa existente" 
-                        className='bg-blue-600 px-2 py-1 ml-1 text-white rounded cursor-pointer' 
-                        onClick={()=>{
-                          if(!mapaCab.Code){
-                            alert('Digite o código do mapa para fazer a busca')
-                            return
+                      <div className="flex items-center">
+
+                        <input
+                          type="text"
+                          value={mapaCab.Code ?? ''}
+                          className={inputClass}
+                          onChange={(e) =>
+                            handleChande(
+                              'Code',
+                              e.target.value
+                            )
                           }
-                          location.href = `/mapa-de-carregamento?code=${mapaCab.Code}`
-                        }}>
-                        <IoSearchOutline />
-                      </button>
-                    </div>
+                        />
+                        <button
+                          title="Buscar Mapa existente"
+                          className='bg-blue-600 px-2 py-1 ml-1 text-white rounded cursor-pointer'
+                          onClick={() => {
+                            if (!mapaCab.Code) {
+                              alert('Digite o código do mapa para fazer a busca')
+                              return
+                            }
+                            location.href = `/mapa-de-carregamento?code=${mapaCab.Code}`
+                          }}>
+                          <IoSearchOutline />
+                        </button>
+                      </div>
                     </div>
 
                     <div>

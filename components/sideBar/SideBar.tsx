@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import { FaRegUserCircle, FaTruckLoading } from "react-icons/fa"
 import { LuLogs } from "react-icons/lu"
 import { TbReport } from "react-icons/tb"
+import './SideBar.css'
 
 interface SideBarProps {
     collapsed: boolean
@@ -23,6 +24,7 @@ export function SideBar({ collapsed }: SideBarProps) {
     return (
         <aside
             className={`
+                side-bar
                 top-[60px]
                 left-0
                 z-100

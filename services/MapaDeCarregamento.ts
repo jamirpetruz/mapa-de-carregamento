@@ -1,4 +1,4 @@
-import { getHanaConnection, pgPool } from "@/lib/db";
+import { getHanaConnection } from "@/lib/db";
 import { getSapSession } from "@/lib/sap/session";
 import { IMapaCab } from "@/types/MapaCab";
 import { IMapaCarPayload } from "@/types/MapaCarPayload";
@@ -255,9 +255,9 @@ export async function saveMapaHana(cab: IMapaCab, lines: IMapaLinePayload[], usu
 
         const log: ILog = {
             acao: "Cadastro de Mapa de Carregamento",
-            usuario_id: usuario_id,
+            usuarioId: usuario_id,
             entidade: "MAP_CAR",
-            entidade_id: cab.Code!!
+            entidadeId: cab.Code!!
         };
         await registerLog(log);
 
@@ -376,9 +376,9 @@ export async function updateMapaHana(
         console.log("========== MAPA ATUALIZADO COM SUCESSO ==========")
         const log: ILog = {
             acao: "Atualização de Mapa de Carregamento",
-            usuario_id: usuario_id,
+            usuarioId: usuario_id,
             entidade: "MAP_CAR",
-            entidade_id: cab.Code!!
+            entidadeId: cab.Code!!
         };
         await registerLog(log);
         return {
@@ -399,20 +399,6 @@ export async function updateMapaHana(
                 : String(err)
         }
     }
-}
-
-
-export async function findMapaByDates(startDate: Date, endDate: Date) {
-    const conn = await pgPool.connect();
-
-    const sql = `
-        SELECT *
-            FROM "MapaDeCarregamento"
-        WHERE "dataInicio" >= $1 AND "dataFim" <= $2
-    `;
-
-    const result = await conn.query(sql, [startDate, endDate]);
-    return result.rows;
 }
 
 export async function findMapasDeCarregamentoByDates(dataInicial: string, dataFinal: string): Promise<IMapaCarregamento[]> {

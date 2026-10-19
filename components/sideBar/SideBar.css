@@ -1,0 +1,7 @@
+@media screen and (max-width: 768px) {
+    .side-bar{
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+    }
+}

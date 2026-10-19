@@ -1,5 +1,6 @@
 import hanaClient from "@sap/hana-client";
-import { Pool } from "pg";
+import sql from 'mssql'
+import bcrypt from 'bcrypt'
 
 const connectionParams = {
     serverNode: `${process.env.HANA_HOST}:${process.env.HANA_PORT}`,
@@ -34,9 +35,28 @@ export function getHanaConnection(): Promise<hanaClient.Connection> {
     });
 }
 
-export const pgPool = new Pool({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD
-})
+export async function getSQLServerPool(): Promise<sql.ConnectionPool> {
+
+    const sqlConfig: sql.config = {
+        user: process.env.SQL_USER,
+        password: process.env.SQL_PASS,
+        database: process.env.SQL_DATABASE,
+        port: Number(process.env.SQL_PORT),
+        server: process.env.SQL_SERVER!,
+        pool: {
+            max: 10,
+            min: 0,
+            idleTimeoutMillis: 30000
+        },
+        options: {
+            trustServerCertificate: true
+        }
+    }
+    try {
+        const pool = await sql.connect(sqlConfig)
+        return pool
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}

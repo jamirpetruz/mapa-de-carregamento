@@ -178,17 +178,6 @@ export default function LoginPage() {
                                     Senha
                                 </label>
 
-                                <button
-                                    type="button"
-                                    className="
-                                        text-xs
-                                        text-blue-600
-                                        hover:text-blue-700
-                                    "
-                                >
-                                    Esqueci minha senha
-                                </button>
-
                             </div>
 
                             <div className="relative">

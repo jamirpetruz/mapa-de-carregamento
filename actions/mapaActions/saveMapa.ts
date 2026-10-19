@@ -1,6 +1,6 @@
 'use server'
 import { requireAuth } from "@/lib/auth";
-import { saveMapaDeCarregamento, updateMapaHana } from "@/services/MapaDeCarregamento";
+import { saveMapaDeCarregamento, saveMapaHana, updateMapaHana } from "@/services/MapaDeCarregamento";
 import { proximoCode } from "@/services/ProximoCode";
 import { IMapaCab } from "@/types/MapaCab";
 import { IMapaLine } from "@/types/MapaLine";
@@ -8,8 +8,9 @@ import { IMapaLinePayload } from "@/types/MapaLinePayload";
 
 export async function saveMapa(cab: IMapaCab, lines: IMapaLinePayload[], usuario_id: string) {
     const session = await requireAuth()
-    const result = await saveMapaDeCarregamento(cab, lines, usuario_id);
-    if (result) {
+    const result = await saveMapaHana(cab, lines, usuario_id);
+    
+    if (result.success) {
         return {
             success: true,
             msg: 'Mapa cadastrado com sucesso !'
