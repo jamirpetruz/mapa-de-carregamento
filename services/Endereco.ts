@@ -17,18 +17,20 @@ export async function findEndereco(numPedido: number | null): Promise<IEndereco>
         LEFT JOIN "${HANA_DATABASE}".OCRY T3 ON T2."Country" = T3."Code" 
             WHERE T0."DocNum" = ?
     `
-        return new Promise<IEndereco>((resolve, reject) => {
+    return new Promise<IEndereco>((resolve, reject) => {
         conn.execute(
             sql,
             [numPedido],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { pais: string; cidade: string; bairro: string; rua: string; cep: string }[];
-
+                conn.close()
                 resolve(items[0] ?? { pais: "", cidade: "", bairro: "", rua: "", cep: "" });
             }
         );
@@ -59,12 +61,13 @@ export async function findPais(numPedido: number | null): Promise<string> {
             [numPedido],
             (err, res) => {
                 if (err) {
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { pais: string }[];
-
+                conn.close()
                 resolve(items[0]?.pais ?? "");
             }
         );
@@ -92,12 +95,13 @@ export async function findCidade(numPedido: number | null): Promise<string> {
             [numPedido],
             (err, res) => {
                 if (err) {
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { cidade: string }[];
-
+                conn.close()
                 resolve(items[0]?.cidade ?? "");
             }
         );
@@ -125,12 +129,13 @@ export async function findBairro(numPedido: number | null): Promise<string> {
             [numPedido],
             (err, res) => {
                 if (err) {
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { bairro: string }[];
-
+                conn.close()
                 resolve(items[0]?.bairro ?? "");
             }
         );
@@ -158,12 +163,13 @@ export async function findCep(numPedido: number | null): Promise<string> {
             [numPedido],
             (err, res) => {
                 if (err) {
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { cep: string }[];
-
+                conn.close()
                 resolve(items[0]?.cep ?? "");
             }
         );
@@ -191,12 +197,13 @@ export async function findRua(numPedido: number | null): Promise<string> {
             [numPedido],
             (err, res) => {
                 if (err) {
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { rua: string }[];
-
+                conn.close()
                 resolve(items[0]?.rua ?? "");
             }
         );

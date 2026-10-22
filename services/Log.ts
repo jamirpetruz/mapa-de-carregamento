@@ -5,19 +5,26 @@ import sql from "mssql";
 export async function registerLog(log: ILog): Promise<void> {
     const db = await getSQLServerPool();
 
-    const request = db.request();
+    try {
+        const request = db.request();
 
-    request.input("acao", sql.NVarChar, log.acao);
-    request.input("usuarioId", sql.Int, log.usuarioId);
-    request.input("entidade", sql.NVarChar, log.entidade);
-    request.input("entidadeId", sql.VarChar, log.entidadeId);
+        request.input("acao", sql.NVarChar, log.acao);
+        request.input("usuarioId", sql.Int, log.usuarioId);
+        request.input("entidade", sql.NVarChar, log.entidade);
+        request.input("entidadeId", sql.VarChar, log.entidadeId);
 
-    const query = `
+        const query = `
         INSERT INTO dbo.Logs (acao, usuarioId, entidade, entidadeId)
         VALUES (@acao, @usuarioId, @entidade, @entidadeId)
     `;
 
-    await request.query(query);
+        await request.query(query);
+    } catch (error) {
+        console.log(error)
+    } finally {
+        await db.close()
+    }
+
 }
 
 export async function findLogsBetweenDates(
@@ -26,12 +33,13 @@ export async function findLogsBetweenDates(
 ): Promise<ILog[]> {
     const db = await getSQLServerPool();
 
-    const request = db.request();
+    try {
+        const request = db.request();
 
-    request.input("dataInicial", sql.DateTime2, dataInicial);
-    request.input("dataFinal", sql.DateTime2, dataFinal);
+        request.input("dataInicial", sql.DateTime2, dataInicial);
+        request.input("dataFinal", sql.DateTime2, dataFinal);
 
-    const query = `
+        const query = `
         SELECT *
         FROM dbo.Logs
         WHERE dataHora >= @dataInicial
@@ -39,7 +47,15 @@ export async function findLogsBetweenDates(
         ORDER BY dataHora DESC
     `;
 
-    const result = await request.query(query);
+        const result = await request.query(query);
 
-    return result.recordset as ILog[];
+        return result.recordset as ILog[];
+    } catch (error) {
+        console.log(error)
+        return []
+
+    } finally {
+        await db.close()
+    }
+
 }

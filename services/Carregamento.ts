@@ -18,12 +18,14 @@ export async function findPesoReferencia(itemCode: string): Promise<number> {
             [itemCode],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { pesoRef: number }[];
-
+                conn.close()
                 resolve(items[0]?.pesoRef ?? 0);
             }
         );
@@ -38,8 +40,7 @@ export async function findPesos(
     numLote: string
 ): Promise<{ pesoLiquido: number, pesoBruto: number }> {
     const conn = await getHanaConnection();
-    console.log(`PESO DO PALLET: ${pesoPalet}`)
-    console.log(`${pesoPalet}, ${pesoReferencia}, ${numPedido}, ${itemCode}, ${numLote}`)
+
     const sql = `
     SELECT 
         ROUND(
@@ -82,12 +83,14 @@ export async function findPesos(
             [pesoPalet, pesoReferencia, pesoReferencia, numPedido, itemCode, numLote],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { pesoLiquido: number, pesoBruto: number }[];
-
+                conn.close()
                 resolve(items[0] ?? { pesoLiquido: 0, pesoBruto: 0 });
             }
         );
@@ -113,12 +116,14 @@ export async function findDeposito(numPedido: number | null): Promise<string> {
             [numPedido],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { deposito: string }[];
-
+                conn.close()
                 resolve(items[0]?.deposito ?? "");
             }
         );

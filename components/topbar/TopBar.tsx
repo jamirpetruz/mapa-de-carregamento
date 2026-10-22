@@ -142,7 +142,7 @@ export function SideBarLayout({ children }: { children: React.ReactNode }) {
                 </div>
 
             </header>
-            <div className="flex h-[calc(100vh-60px)]">
+            <div className="flex h-[calc(100vh-60px)] bg-gray-200">
 
                 <SideBar collapsed={sidebarCollapsed} />
 

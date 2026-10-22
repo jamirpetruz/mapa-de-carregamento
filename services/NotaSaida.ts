@@ -36,12 +36,14 @@ export async function findNotaSaida(docNum: number) {
             [docNum],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as INotaSaida[];
-
+                conn.close()
                 resolve(items[0] ?? {
                     CardCode: "",
                     CardName: "",
@@ -86,12 +88,14 @@ export async function findNotaSaidaLines(numPedido: number): Promise<INotaSaidaL
             [numPedido],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as INotaSaidaLine[];
-
+                conn.close()
                 resolve(items);
             }
         );

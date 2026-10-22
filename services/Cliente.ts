@@ -40,12 +40,14 @@ export async function findClientePedido(numPedido: number | null, itemCode: stri
             [numPedido, itemCode, numLote],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as IClientePedido[];
-
+                conn.close()
                 resolve(items[0] ?? { nomeCliente: "", codCliente: "", invoice: "" });
             }
         );

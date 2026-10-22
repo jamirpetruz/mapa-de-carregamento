@@ -453,12 +453,14 @@ export async function findMapasDeCarregamentoByDates(dataInicial: string, dataFi
             [dataInicial, dataFinal],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = (res as IMapaCarregamento[])
-
+                conn.close()
                 resolve(items);
             }
         );
@@ -475,11 +477,14 @@ export async function findMapaDeCarregamentoByCode(code: string): Promise<IMapaC
             [code],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = (res as IMapaCab[])
+                conn.close()
                 resolve(items[0]);
             }
         );
@@ -495,11 +500,14 @@ export async function findMapaLinesByCode(code: string): Promise<IMapaLinePayloa
             [code],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = (res as IMapaLinePayload[])
+                conn.close()
                 resolve(items);
             }
         );

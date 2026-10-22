@@ -27,18 +27,20 @@ export async function findFabricacao(numPedido: number | null, itemCode: string,
             AND T6L."ItemCode" = ? -- $[@MAP_CAR_LIN.U_CodItem.0]   -- Código do item digitado
             AND T7."DistNumber" = ? -- $[@MAP_CAR_LIN.U_Lote.0]     -- Número do lote selecionado
     `
-        return new Promise<IFabricacao>((resolve, reject) => {
+    return new Promise<IFabricacao>((resolve, reject) => {
         conn.execute(
             sql,
             [numPedido, itemCode, numLote],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { fabricacao: string; validade: string }[];
-
+                conn.close()
                 resolve(items[0] ?? { fabricacao: "", validade: "" });
             }
         );

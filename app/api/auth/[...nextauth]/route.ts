@@ -2,7 +2,6 @@ import { findUsuarioByEmail } from "@/services/Usuario"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt"
-import { setSapSession } from "@/lib/sap/session"
 
 const handler = NextAuth({
     providers: [

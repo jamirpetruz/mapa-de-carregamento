@@ -210,8 +210,8 @@ export default function MapaDeCarregamento() {
   }
 
   const inputClass =
-    "w-full px-2.5 py-1 text-xs bg-gray-50 border border-gray-200 rounded-md " +
-    "focus:bg-white focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 " +
+    "w-full px-2.5 py-1 text-xs bg-gray-50 border border-gray-200 rounded-md bg-white" +
+    "focus:ring-1 focus:ring-blue-500/20 focus:border-blue-500 " +
     "outline-none transition";
 
   const labelClass =

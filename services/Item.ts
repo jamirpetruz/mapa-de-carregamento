@@ -28,13 +28,15 @@ export async function findItemsByPedido(numPedido: number | null): Promise<strin
             [numPedido],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = (res as { "CÓDIGO": string }[])
                     .map(row => row["CÓDIGO"]);
-
+                conn.close()
                 resolve(items);
             }
         );
@@ -57,12 +59,14 @@ export async function findItemDesc(itemCode: string): Promise<string> {
             [itemCode],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { descricao: string }[];
-
+                conn.close()
                 resolve(items[0]?.descricao ?? "");
             }
         );
@@ -83,12 +87,14 @@ export async function findItemUnidade(itemCode: string): Promise<string> {
             [itemCode],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { Unidade: string }[];
-
+                conn.close()
                 resolve(items[0]?.Unidade ?? "");
             }
         );
@@ -125,12 +131,14 @@ export async function findQuantidade(numPedido: number | null, itemCode: string,
             [numPedido, itemCode, numLote],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { quantidade: string }[];
-
+                conn.close()
                 resolve(items[0]?.quantidade ?? "");
             }
         );
@@ -157,12 +165,14 @@ export async function findPreco(numPedido: number | null, itemCode: string): Pro
             [numPedido, itemCode],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { preco: string }[];
-
+                conn.close()
                 resolve(items[0]?.preco ?? "");
             }
         );
@@ -197,12 +207,14 @@ export async function findTotal(numPedido: number | null, itemCode: string, numL
             [numPedido, itemCode, numLote],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { total: string }[];
-
+                conn.close()
                 resolve(items[0]?.total ?? "");
             }
         );

@@ -33,13 +33,15 @@ export async function loadLotes(numPedido: number | null, codItem: string): Prom
             [numPedido, codItem],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = (res as { "LOTE": string }[])
                     .map(row => row["LOTE"]);
-
+                conn.close()
                 resolve(items);
             }
         );

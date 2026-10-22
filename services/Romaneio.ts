@@ -76,12 +76,14 @@ WHERE T0."U_Data" >= ?
             [dataInicial, dataFinal],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = (res as IRomaneio[])
-                console.log(items)
+                conn.close()
                 resolve(items);
             }
         );
@@ -158,11 +160,14 @@ export async function findRomaneioByCode(code: string): Promise<IRomaneio> {
             [code],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = (res as IRomaneio[])
+                conn.close()
                 resolve(items[0]);
             }
         );

@@ -28,12 +28,14 @@ export async function findPedidoByNum(docNum: number): Promise<IPedidoVenda> {
             [docNum],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as IPedidoVenda[];
-
+                conn.close()
                 resolve(items[0]);
             }
         );
@@ -60,12 +62,14 @@ export async function findPedidoLines(docNum: number): Promise<IPedidoLine[]> {
             [docNum],
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as IPedidoLine[];
-
+                conn.close()
                 resolve(items);
             }
         );

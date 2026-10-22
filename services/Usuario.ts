@@ -20,20 +20,28 @@ export async function findAllUsuarios(): Promise<IUsuario[]> {
         ORDER BY name
     `;
 
-    const result = await pool.request().query(query);
+    try {
+        const result = await pool.request().query(query);
+        return result.recordset as IUsuario[];
+    } catch (error) {
+        console.log(error)
+        return []
+    } finally{
+        await pool.close()
+    }
 
-    return result.recordset as IUsuario[];
+
 }
 
 export async function findUsuarioByEmail(
     email: string
 ): Promise<IUsuario | null> {
     const pool = await getSQLServerPool();
-
-    const result = await pool
-        .request()
-        .input("email", sql.VarChar(150), email)
-        .query(`
+    try {
+        const result = await pool
+            .request()
+            .input("email", sql.VarChar(150), email)
+            .query(`
             SELECT
                 userId,
                 username,
@@ -47,25 +55,34 @@ export async function findUsuarioByEmail(
             WHERE email = @email
         `);
 
-    return (result.recordset[0] as IUsuario) ?? null;
+        return (result.recordset[0] as IUsuario) ?? null;
+    } catch (error) {
+        console.log(error)
+        return null
+    } finally{
+        await pool.close()
+    }
+
 }
 
 export async function createUsuario(
     user: IUsuario
-): Promise<IUsuario> {
+): Promise<IUsuario | null> {
     const pool = await getSQLServerPool();
 
-    const passwordHash = await bcrypt.hash(user.password, 10);
+    try {
 
-    const result = await pool
-        .request()
-        .input("username", sql.VarChar(100), user.username)
-        .input("name", sql.VarChar(150), user.name)
-        .input("email", sql.VarChar(150), user.email)
-        .input("password", sql.VarChar(255), passwordHash)
-        .input("ativo", sql.Bit, user.ativo ?? true)
-        .input("role", sql.VarChar(20), user.role || "user")
-        .query(`
+        const passwordHash = await bcrypt.hash(user.password, 10);
+
+        const result = await pool
+            .request()
+            .input("username", sql.VarChar(100), user.username)
+            .input("name", sql.VarChar(150), user.name)
+            .input("email", sql.VarChar(150), user.email)
+            .input("password", sql.VarChar(255), passwordHash)
+            .input("ativo", sql.Bit, user.ativo ?? true)
+            .input("role", sql.VarChar(20), user.role || "user")
+            .query(`
             INSERT INTO dbo.Users (
                 username,
                 name,
@@ -94,7 +111,14 @@ export async function createUsuario(
             )
         `);
 
-    return result.recordset[0] as IUsuario;
+        return result.recordset[0] as IUsuario;
+    } catch (error) {
+        console.log(error)
+        return null
+    } finally{
+        await pool.close()
+    }
+
 }
 
 export async function updateUsuario(
@@ -136,6 +160,9 @@ export async function updateUsuario(
         return true;
     } catch (error) {
         console.error("Falha ao atualizar usuário:", error);
+        
         return false;
+    } finally {
+        await pool.close()
     }
 }

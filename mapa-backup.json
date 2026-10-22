@@ -282,6 +282,47 @@
           "U_NPalet": 1
         }
       ]
+    },
+    {
+      "Code": "0001",
+      "U_Veiculo": "sdad",
+      "U_NPedido": 15,
+      "U_Placa": "asd",
+      "U_Lacre": "adada",
+      "U_Motorista": "sdasd",
+      "U_DataLog": "dasd",
+      "U_Transport": "asda",
+      "U_Cubagem": "sdada",
+      "U_OBS": "dasd",
+      "U_Data": "2026-09-16",
+      "MAP_CAR_LINCollection": [
+        {
+          "Code": "",
+          "U_CodItem": "00131",
+          "U_Lote": "13715352-2",
+          "U_Invoice": "APY 1026",
+          "U_CodClient": "C00228",
+          "U_CardName": "AMAZONIA SPECIALITIES PTY LTD",
+          "U_DescItem": "ACAI GUARANA AMAZONIA PTY CLA16 SR OPCA 100G CX60 EX",
+          "U_Unidade": "CX",
+          "U_Quant": 123,
+          "U_Preco": 16.92,
+          "U_Total": 2081.16,
+          "U_Fabric": "2025-12-05",
+          "U_Validade": "2028-12-05",
+          "U_Cidade": "Exterior",
+          "U_Pais": "Austrália",
+          "U_Bairro": "Exterior",
+          "U_Cep": "99999999",
+          "U_Rua": "Gold Coast",
+          "U_Deposito": "01.06",
+          "U_PPalet": 22,
+          "U_PRef": "6.000000",
+          "U_PLiq": 738,
+          "U_PBru": 760,
+          "U_NPalet": 1
+        }
+      ]
     }
   ]
 }

@@ -2,7 +2,7 @@ import { getHanaConnection } from "@/lib/db";
 
 const HANA_DATABASE = process.env.HANA_DATABASE
 
-export async function proximoCode(): Promise<string>{
+export async function proximoCode(): Promise<string> {
     const conn = await getHanaConnection();
     const sql = `
     SELECT 
@@ -18,12 +18,14 @@ export async function proximoCode(): Promise<string>{
             sql,
             (err, res) => {
                 if (err) {
+                    console.log(err)
+                    conn.close()
                     reject(err);
                     return;
                 }
 
                 const items = res as { ProximoCode: string }[];
-
+                conn.close()
                 resolve(items[0].ProximoCode);
             }
         );
